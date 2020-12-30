@@ -1,0 +1,15 @@
+{
+    "server":{
+        "host": "172.105.33.212",
+        "port": 8300
+    },
+    "applications":[
+        {
+            "name":"SERVER",
+            "restart":"08:00",
+            "path": "/opt/pounzecart_api/pounzecart_api",
+            "cmd":"nohup /opt/pounzecart_api/pounzecart_api",
+            "sleep":1
+        }
+    ]
+}
