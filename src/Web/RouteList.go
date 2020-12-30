@@ -5,7 +5,10 @@ import(
 	"net/http"
 	"objects"
 	"encoding/json"
+  "sync"
 )
+
+var Mtx sync.RWMutex
 
 func Routes(){
 
@@ -13,12 +16,14 @@ func Routes(){
 
 	httpApp.Get("/",func(req *http.Request,res http.ResponseWriter){
        	
-       	msg, err := json.Marshal(objects.Adapters)
+    Mtx.RLock()
+   	msg, err := json.Marshal(objects.Adapters)
+    Mtx.RUnlock()
 
-       	if err != nil{
-       		return
-       	}
+   	if err != nil{
+   		return
+   	}
 
-       	res.Write(msg)
-    })
+   	res.Write(msg)
+  })
 }

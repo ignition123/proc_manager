@@ -119,17 +119,23 @@ func handleRequest(conn net.Conn){
 
 	  	key := objects.Response.PsName+"---->"+objects.Response.Ip
 
+	  	Web.Mtx.RLock()
 	  	_, ok := objects.Adapters[key]
+	  	Web.Mtx.RUnlock()
 
 	  	if !ok{
 
+	  		Web.Mtx.Lock()
 	  		objects.Adapters[key] = make(map[string]interface{})
+	  		Web.Mtx.Unlock()
 	  	}
 
+	  	Web.Mtx.Lock()
 	  	objects.Adapters[key]["msg"] = objects.Response.Msg
 	  	objects.Adapters[key]["psName"] = objects.Response.PsName
 	  	objects.Adapters[key]["ip"] = objects.Response.Ip
 	  	objects.Adapters[key]["lut"] = objects.Response.LUT
 	  	objects.Adapters[key]["path"] = objects.Response.PsPath
+	  	Web.Mtx.Unlock()
   	}  	
 }
